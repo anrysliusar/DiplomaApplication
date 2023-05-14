@@ -19,7 +19,7 @@ public class Project {
     private String description;
 
     @ManyToMany(mappedBy = "projects")
-    private List<User> users;
+    private List<AppUser> users;
 
     @OneToMany(mappedBy = "project")
     private List<Presentation> presentations;

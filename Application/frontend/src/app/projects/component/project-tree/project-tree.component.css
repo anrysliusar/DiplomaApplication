@@ -1,0 +1,13 @@
+.tab-header {
+  display: flex;
+  justify-content: center;
+}
+
+::ng-deep .p-panelmenu .p-panelmenu-header > a {
+  padding: 0.8rem !important;
+}
+
+.project-tab-wrapper {
+  margin-top: 3px;
+  height: 100%;
+}

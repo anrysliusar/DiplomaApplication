@@ -1,0 +1,23 @@
+<header>
+  <div class="navbar">
+    <div>
+      <p-menubar [model]="menuItems" [styleClass]="'menu'"></p-menubar>
+    </div>
+    <div class="app-name">GestoSlide</div>
+    <div class="ml-auto">
+      <button *ngIf="isAuthenticated" pButton pRipple
+              label="Logout"
+              icon="pi pi-user"
+              class="logout-btn p-button-secondary"
+              (click)="logout()">
+      </button>
+      <button *ngIf="!isAuthenticated" pButton pRipple
+              label="Login"
+              icon="pi pi-user"
+              class="logout-btn p-button-secondary"
+              (click)="login()">
+      </button>
+    </div>
+  </div>
+
+</header>

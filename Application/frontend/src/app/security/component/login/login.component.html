@@ -1,0 +1,47 @@
+<div class="message">
+  <div class="w-3">
+  <p-messages [(value)]="messages" [enableService]="false" [closable]="true"></p-messages>
+  </div>
+</div>
+<div class="login-page-wrapper">
+  <div class="welcome-text-wrapper">
+    <div class="app-name surface-card">GestoSlide</div>
+    <div>Lorem ipsum. Lorem ipsum nmasfgsdf!</div>
+  </div>
+  <div class="sign-in-card">
+    <div class="surface-card border-round p-4">
+      <div class="text-center mb-5">
+        <div class="text-900 text-3xl font-medium mb-3">Sign in</div>
+      </div>
+      <div [formGroup]="loginForm">
+        <label class="block text-900 font-medium mb-2">Username</label>
+        <input type="text"
+               formControlName="username"
+               placeholder="Username"
+               pInputText class="w-full mb-3">
+
+        <label class="block text-900 font-medium mb-2">Password</label>
+        <input type="password"
+               formControlName="password"
+               placeholder="Password"
+               pInputText class="w-full mb-3">
+
+        <button pButton pRipple
+                label="Sign In"
+                icon="pi pi-user"
+                class="w-full"
+                (click)="login()">
+        </button>
+
+        <div class="mt-5 ">
+          <label class="block text-600 font-medium line-height-3 mb-3">New to GestoSlide?</label>
+          <button pButton pRipple
+                  label="Create an account"
+                  class="w-full"
+                  (click)="navigateToRegister()">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

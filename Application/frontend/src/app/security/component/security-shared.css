@@ -1,0 +1,46 @@
+.login-page-wrapper {
+  height: 80%;
+  display: flex;
+}
+
+.message {
+  z-index: 1000;
+  position: fixed;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.welcome-text-wrapper {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign-in-card {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-name {
+  font-family: 'Arial', sans-serif;
+  font-size: 36px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 40px;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  color: #FFF;
+}
+
+.app-name:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+

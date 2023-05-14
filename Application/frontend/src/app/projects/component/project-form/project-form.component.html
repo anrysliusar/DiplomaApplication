@@ -1,0 +1,26 @@
+<div>
+  <div class="tab-header">
+    <h3></h3>
+  </div>
+  <div class="pl-3">
+    <form [formGroup]="formGroup">
+      <div class="flex flex-column gap-2 w-50rem">
+        <label>Name</label>
+        <input pInputText formControlName="name"/>
+      </div>
+      <div class="flex flex-column gap-2 w-50rem">
+        <label>Description</label>
+        <textarea rows="5" cols="300"
+                  pInputTextarea
+                  formControlName="description">
+        </textarea>
+      </div>
+      <button pButton pRipple
+              label="Save"
+              icon=""
+              class="w-10rem"
+              (click)="save()">
+      </button>
+    </form>
+  </div>
+</div>

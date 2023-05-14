@@ -1,0 +1,13 @@
+.project-tab-wrapper {
+  margin-top: 3px;
+  height: 100%;
+}
+
+.tab-header {
+  display: flex;
+  justify-content: center;
+}
+
+.w-50rem {
+  width: 50rem;
+}

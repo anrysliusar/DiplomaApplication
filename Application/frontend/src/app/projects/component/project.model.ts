@@ -9,3 +9,9 @@ export interface ProjectTreeNode {
   isNew?: boolean;
 }
 
+export interface Project {
+  id: number;
+  name: string;
+  description: string;
+}
+

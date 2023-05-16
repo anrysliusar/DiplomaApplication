@@ -24,10 +24,11 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const params = {
       url: this.BASE_URL + request.url,
-      header: this.getHeaders(request),
+      headers: this.getHeaders(request),
       params: request.params
     }
     request = request.clone(params);
+    console.log("AuthInterceptor: ", request)
     return next.handle(request);
   }
 
@@ -35,6 +36,6 @@ export class AuthInterceptor implements HttpInterceptor {
     if (request.url.startsWith('auth')) {
       return request.headers;
     }
-    return request.headers.append('X-Authorization', 'Bearer ' + this.authToken);
+    return request.headers.append('Authorization', 'Bearer ' + this.authToken);
   }
 }

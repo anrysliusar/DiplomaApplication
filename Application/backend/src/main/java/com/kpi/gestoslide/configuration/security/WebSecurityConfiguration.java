@@ -38,6 +38,7 @@ public class WebSecurityConfiguration {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**").permitAll()
+//                .anyRequest().permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()

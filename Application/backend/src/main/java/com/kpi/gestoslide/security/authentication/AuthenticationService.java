@@ -10,10 +10,13 @@ import com.kpi.gestoslide.dto.authentication.RegisterModel;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -46,5 +49,13 @@ public class AuthenticationService {
         user.setPassword(passwordEncoder.encode(registerModel.password()));
         user.setRoles(List.of(Role.USER));
         return userRepository.save(user);
+    }
+
+    public AppUser getAuthenticatedUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (Objects.nonNull(auth) && auth.getPrincipal() instanceof AppUser appUser) {
+            return appUser;
+        }
+        throw new IllegalArgumentException("User not found");
     }
 }

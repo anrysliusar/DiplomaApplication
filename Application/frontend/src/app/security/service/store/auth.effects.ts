@@ -1,6 +1,6 @@
 import {Actions, createEffect, ofType} from "@ngrx/effects";
 import {AuthApiService} from "../core/auth-api.service";
-import {catchError, concatMap, mergeMap, of, switchMap, tap} from "rxjs";
+import {catchError, mergeMap, of, switchMap, tap} from "rxjs";
 import * as AuthActions from './auth.actions';
 import {Injectable} from "@angular/core";
 import {AuthResponse} from "../../model/user.model";
@@ -36,7 +36,7 @@ export class AuthEffects {
           mergeMap((response: AuthResponse) => {
             return of(AuthActions.registerSuccess({ token: response.token }));
           }),
-          concatMap(() => this.router.navigate(['/home'])),
+          tap(() => this.router.navigate(['/home'])),
           catchError((error) => of(AuthActions.registerFailure({ error })))
         )
       )

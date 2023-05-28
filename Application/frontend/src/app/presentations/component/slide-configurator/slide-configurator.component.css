@@ -1,0 +1,12 @@
+.wrapper {
+  height: 100%;
+  display: flex;
+}
+
+
+.selected-slide {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}

@@ -7,6 +7,7 @@ export interface ProjectTreeNode {
   id: number;
   nodeType: NodeType;
   isNew?: boolean;
+  parentId?: number;
 }
 
 export interface Project {

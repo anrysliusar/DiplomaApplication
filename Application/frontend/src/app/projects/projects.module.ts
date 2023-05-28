@@ -6,18 +6,22 @@ import { ProjectFormComponent } from './component/project-form/project-form.comp
 import {ProjectsRoutingModule} from "./projects.routing";
 import {AppCommonModule} from "../common/app-common.module";
 import {ProjectStoreService} from "./service/store/project-store.service";
+import {PresentationsModule} from "../presentations/presentations.module";
+import { ProjectRightTabComponent } from './component/project-right-tab/project-right-tab.component';
 
 @NgModule({
   declarations: [
     ProjectPageComponent,
     ProjectTreeComponent,
-    ProjectFormComponent
+    ProjectFormComponent,
+    ProjectRightTabComponent
   ],
-  imports: [
-    ProjectsRoutingModule,
-    AppCommonModule,
-    CommonModule,
-  ],
+    imports: [
+        ProjectsRoutingModule,
+        AppCommonModule,
+        CommonModule,
+        PresentationsModule,
+    ],
   providers: [ProjectStoreService]
 })
 export class ProjectsModule { }

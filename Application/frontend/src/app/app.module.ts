@@ -10,6 +10,7 @@ import {StoreModule} from "@ngrx/store";
 import {effects, reducers} from "./store";
 import {EffectsModule} from "@ngrx/effects";
 import {AppCommonModule} from "./common/app-common.module";
+import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import {AppCommonModule} from "./common/app-common.module";
     BrowserAnimationsModule,
     AppCommonModule,
     HomeModule,
+    StoreDevtoolsModule,
     SecurityModule
   ],
   providers: [],

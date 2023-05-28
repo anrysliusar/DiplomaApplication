@@ -24,10 +24,13 @@ export class LoginComponent implements OnInit {
       username: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
     });
+    this.handleErrorMessage();
+  }
+
+  private handleErrorMessage() {
     this.authService.authError$.subscribe(value => {
       if (value) {
-        console.log('error: ', value)
-        this.messages =[{severity:'error', summary:'Error', detail:'Invalid credentials'}];
+        this.messages = [{severity: 'error', summary: 'Error', detail: 'Invalid credentials'}];
       }
     })
   }
@@ -35,7 +38,6 @@ export class LoginComponent implements OnInit {
   login(): void {
     if (this.loginForm.valid) {
       const user: UserLoginModel = this.loginForm.getRawValue();
-      console.log('login: ', user);
       this.authService.login(user)
     }
   }

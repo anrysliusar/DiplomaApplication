@@ -1,11 +1,11 @@
 import {createReducer, on} from '@ngrx/store';
 
 import {NodeType, ProjectTreeNode} from "../../component/project.model";
-import {updateSelectedProjectTreeNode} from "./project.actions";
+import {resetTreeState, updateIsDoUpdate, updateSelectedProjectTreeNode} from "./project.actions";
 
 export interface TreeState {
-  selectedProjectTreeNode: ProjectTreeNode
-
+  selectedProjectTreeNode: ProjectTreeNode,
+  doUpdate: boolean
 }
 
 export const initialState: TreeState = {
@@ -13,7 +13,8 @@ export const initialState: TreeState = {
     isNew: false,
     id: -1,
     nodeType: NodeType.PROJECT
-  }
+  },
+  doUpdate: false
 };
 
 export const projectTreeReducer = createReducer(
@@ -21,6 +22,13 @@ export const projectTreeReducer = createReducer(
   on(updateSelectedProjectTreeNode, (state, {selectedNode}) => ({
     ...state,
     selectedProjectTreeNode: selectedNode
+  })),
+  on(updateIsDoUpdate, (state, {doUpdate}) => ({
+    ...state,
+    doUpdate: doUpdate
+  })),
+  on(resetTreeState, () => ({
+    ...initialState,
   }))
 );
 

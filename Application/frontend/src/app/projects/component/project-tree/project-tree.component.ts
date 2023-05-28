@@ -19,19 +19,32 @@ export class ProjectTreeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadTreeData();
+    this.handleTreeReload();
+  }
+
+  private loadTreeData(): void {
     this.projectApiService.getProjectsTree().subscribe(data => {
       data.forEach(node => {
         if (node.data.nodeType === NodeType.PROJECT) {
-          node.children?.push(this.getAddPresentationNode());
+          node.children?.push(this.getAddPresentationNode(node.data.id));
         }
       });
       this.items = [...data, this.getAddProjectNode()];
     });
-
   }
 
-  nodeSelect(data: ProjectTreeNode) {
+  nodeSelect(data: ProjectTreeNode): void {
     this.projectStoreService.setSelectedTreeNode(data);
+  }
+
+  private handleTreeReload() {
+    this.projectStoreService.isDoUpdate$.subscribe(doUpdate => {
+      if (doUpdate) {
+        this.loadTreeData();
+        this.projectStoreService.setDoUpdate(false);
+      }
+    });
   }
 
   getAddProjectNode(): TreeNode<ProjectTreeNode> {
@@ -42,11 +55,11 @@ export class ProjectTreeComponent implements OnInit {
     };
   }
 
-  getAddPresentationNode(): TreeNode<ProjectTreeNode> {
+  getAddPresentationNode(projectId: number): TreeNode<ProjectTreeNode> {
     return {
       label: '+ Add Presentation',
       leaf: true,
-      data: {id: -1, nodeType: NodeType.PRESENTATION, isNew: true},
+      data: {id: -1, nodeType: NodeType.PRESENTATION, isNew: true, parentId: projectId},
     };
   }
 }

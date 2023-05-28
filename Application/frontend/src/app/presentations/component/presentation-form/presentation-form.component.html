@@ -1,0 +1,35 @@
+<form [formGroup]="formGroup">
+  <div class="flex flex-column gap-2 w-50rem">
+    <label>Name</label>
+    <input pInputText formControlName="name"/>
+  </div>
+  <div class="flex flex-column gap-2 w-50rem">
+    <label>Start date</label>
+    <p-calendar formControlName="startDate"
+                [showTime]="true"
+                [showIcon]="true">
+    </p-calendar>
+  </div>
+  <div class="flex flex-column gap-2 w-50rem">
+    <label>Due date</label>
+    <p-calendar formControlName="endDate"
+                [showTime]="true"
+                [showIcon]="true">
+    </p-calendar>
+  </div>
+  <div class="mt-2">
+    <button pButton pRipple
+            label="Save"
+            icon=""
+            class="w-10rem mr-1"
+            (click)="save()">
+    </button>
+    <button *ngIf="!selectedNode.isNew"
+            pButton pRipple
+            label="Delete"
+            icon="pi pi-trash"
+            class="w-10rem p-button-secondary"
+            (click)="delete()">
+    </button>
+  </div>
+</form>

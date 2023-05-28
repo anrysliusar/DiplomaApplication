@@ -1,0 +1,23 @@
+<ng-container *ngIf="selectedNode.isNew || selectedNode.id != -1; else emptyTab">
+  <div>
+    <div class="tab-header">
+      <h3>{{header}}</h3>
+    </div>
+    <div class="pl-3">
+      <ng-container [ngSwitch]="selectedNode.nodeType">
+        <div *ngSwitchCase="NodeType.PROJECT">
+          <app-project-form></app-project-form>
+        </div>
+        <div *ngSwitchCase="NodeType.PRESENTATION">
+          <app-presentation-page></app-presentation-page>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #emptyTab>
+  <div class="tab-header">
+    <h3>Select a project or presentation to edit</h3>
+  </div>
+</ng-template>

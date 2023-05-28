@@ -12,6 +12,8 @@ import {MessagesModule} from "primeng/messages";
 import {TreeModule} from "primeng/tree";
 import {PanelMenuModule} from "primeng/panelmenu";
 import {InputTextareaModule} from "primeng/inputtextarea";
+import {CalendarModule} from "primeng/calendar";
+import {TabViewModule} from "primeng/tabview";
 
 
 @NgModule({
@@ -20,6 +22,7 @@ import {InputTextareaModule} from "primeng/inputtextarea";
     FooterComponent
   ],
   imports: [
+    TabViewModule,
     ReactiveFormsModule,
     HttpClientModule,
     CommonModule,
@@ -31,9 +34,10 @@ import {InputTextareaModule} from "primeng/inputtextarea";
     TreeModule,
     PanelMenuModule,
     InputTextareaModule,
+    CalendarModule
   ],
   exports: [ReactiveFormsModule, HeaderComponent, ButtonModule, RippleModule, InputTextModule, MessagesModule,
-    FooterComponent, TreeModule, PanelMenuModule, InputTextareaModule
+    FooterComponent, TreeModule, PanelMenuModule, InputTextareaModule, CalendarModule, TabViewModule
   ]
 })
 export class AppCommonModule {

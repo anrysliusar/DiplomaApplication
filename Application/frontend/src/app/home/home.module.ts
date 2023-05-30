@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HomePageComponent } from './component/home-page/home-page.component';
 import {AppCommonModule} from "../common/app-common.module";
 import {HandGestureModule} from "../hand-gesture/hand-gesture.module";
+import {StepsModule} from "primeng/steps";
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import {HandGestureModule} from "../hand-gesture/hand-gesture.module";
     CommonModule,
     AppCommonModule,
     HandGestureModule,
+    StepsModule,
   ],
   exports: [HomePageComponent]
 })

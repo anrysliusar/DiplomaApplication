@@ -1,5 +1,9 @@
-.test {
+.canvas {
   position: absolute;
   left: 0;
   top: 0;
+}
+
+.text-align {
+  text-align: center;
 }

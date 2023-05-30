@@ -14,6 +14,10 @@ import {PanelMenuModule} from "primeng/panelmenu";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {CalendarModule} from "primeng/calendar";
 import {TabViewModule} from "primeng/tabview";
+import {GalleriaModule} from "primeng/galleria";
+import {FileUploadModule} from "primeng/fileupload";
+import {CarouselModule} from "primeng/carousel";
+import {ImageModule} from "primeng/image";
 
 
 @NgModule({
@@ -34,10 +38,15 @@ import {TabViewModule} from "primeng/tabview";
     TreeModule,
     PanelMenuModule,
     InputTextareaModule,
-    CalendarModule
+    CalendarModule,
+    GalleriaModule,
+    FileUploadModule,
+    CarouselModule,
+    ImageModule,
   ],
   exports: [ReactiveFormsModule, HeaderComponent, ButtonModule, RippleModule, InputTextModule, MessagesModule,
-    FooterComponent, TreeModule, PanelMenuModule, InputTextareaModule, CalendarModule, TabViewModule
+    FooterComponent, TreeModule, PanelMenuModule, InputTextareaModule, CalendarModule, TabViewModule, GalleriaModule,
+    FileUploadModule, CarouselModule, ImageModule,
   ]
 })
 export class AppCommonModule {

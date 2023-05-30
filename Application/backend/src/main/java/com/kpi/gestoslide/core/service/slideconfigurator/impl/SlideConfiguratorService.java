@@ -8,19 +8,18 @@ import com.kpi.gestoslide.core.domain.repository.SlideRepository;
 import com.kpi.gestoslide.core.dto.presentation.MediaFileDTO;
 import com.kpi.gestoslide.core.dto.presentation.SlideDTO;
 import com.kpi.gestoslide.core.mappers.MediaFileMapper;
-import com.kpi.gestoslide.core.mappers.PresentationMapper;
 import com.kpi.gestoslide.core.service.slideconfigurator.SlideConfigurator;
-import com.kpi.gestoslide.security.service.usermanagement.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.print.attribute.standard.Media;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -40,21 +39,12 @@ public class SlideConfiguratorService implements SlideConfigurator {
                     Slide slide = new Slide();
                     slide.setPresentation(presentation);
                     slide.setSequenceNumber(presentation.getSlides().size());
-                    addMediaFileToSlide(slideDTO, slide);
-                    return slideRepository.save(slide);
+                    Slide saved = slideRepository.save(slide);
+                    addMediaFileToSlide(slideDTO, saved);
+                    return saved;
                 })
-                .map(slide -> {
-                    MediaFileDTO mediaFileDTO = mediaFileMapper.mediaFileToMediaFileDTO(slide.getMediaFiles().get(0));
-                    return new SlideDTO(slide.getId(), slide.getName(), slide.getSequenceNumber(), mediaFileDTO);
-                })
+                .map(this::mapToSlideDTO)
                 .orElseThrow(() -> new IllegalArgumentException("Presentation with id " + presentationId + " not found"));
-    }
-
-    private void addMediaFileToSlide(SlideDTO slideDTO, Slide slide) {
-        mediaFileRepository.findById(slideDTO.mediaFile().id())
-                .ifPresentOrElse(mediaFile -> slide.getMediaFiles().add(mediaFile),
-                        () -> {throw new IllegalArgumentException("Media file not found");}
-                );
     }
 
     @Override
@@ -64,6 +54,57 @@ public class SlideConfiguratorService implements SlideConfigurator {
         Path path = saveUploadedFile(file);
         mediaFile.setFilePath(path.toString());
         return mediaFileRepository.save(mediaFile);
+    }
+
+    @Override
+    public List<SlideDTO> getSlides(Long presentationId) {
+        return slideRepository.findByPresentationId(presentationId)
+                .stream()
+                .filter(slide -> !slide.getMediaFiles().isEmpty())
+                .map(this::mapToSlideDTO)
+                .toList();
+    }
+
+    private SlideDTO mapToSlideDTO(Slide slide) {
+        MediaFile mediaFile = slide.getMediaFiles().get(0);
+        MediaFileDTO mediaFileDTO = new MediaFileDTO(mediaFile.getId(), mediaFile.getName(), mediaFile.getFilePath());
+        return new SlideDTO(slide.getId(), slide.getName(), slide.getSequenceNumber(), mediaFileDTO);
+    }
+
+    @Override
+    public SlideDTO getSlide(Long slideId) {
+        return slideRepository.findById(slideId)
+                .map(this::mapToSlideDTO)
+                .orElseThrow(NoSuchElementException::new);
+    }
+
+    @Override
+    public void deleteSlide(Long slideId) {
+        slideRepository.findById(slideId)
+                .ifPresent(slide -> {
+                    removePresentationFromProject(slide);
+                    reorderSlides(slide);
+                    slideRepository.delete(slide);
+                });
+    }
+
+    private void reorderSlides(Slide slide) {
+        List<Slide> slides = slideRepository.findByPresentationId(slide.getPresentation().getId());
+        slides.stream()
+                .filter(s -> s.getSequenceNumber() > slide.getSequenceNumber())
+                .forEach(s -> s.setSequenceNumber(s.getSequenceNumber() - 1));
+        slideRepository.saveAll(slides);
+    }
+
+    private void addMediaFileToSlide(SlideDTO slideDTO, Slide slide) {
+        mediaFileRepository.findById(slideDTO.mediaFile().id())
+                .ifPresentOrElse(mediaFile -> {
+                            mediaFile.setSlide(slide);
+                            slide.getMediaFiles().add(mediaFile);
+                            mediaFileRepository.save(mediaFile);
+                        },
+                        () -> {throw new IllegalArgumentException("Media file not found");}
+                );
     }
 
     private Path saveUploadedFile(MultipartFile file) {
@@ -83,5 +124,13 @@ public class SlideConfiguratorService implements SlideConfigurator {
         } else {
             throw new IllegalArgumentException("File is empty");
         }
+    }
+
+    private void removePresentationFromProject(Slide slide) {
+        presentationRepository.findById(slide.getPresentation().getId())
+                .ifPresent(presentation -> {
+                    presentation.getSlides().remove(slide);
+                    presentationRepository.save(presentation);
+                });
     }
 }

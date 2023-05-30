@@ -4,10 +4,6 @@ import {PresentationFormComponent} from './component/presentation-form/presentat
 import {AppCommonModule} from "../common/app-common.module";
 import { PresentationPageComponent } from './component/presentation-page/presentation-page.component';
 import { SlideConfiguratorComponent } from './component/slide-configurator/slide-configurator.component';
-import {GalleriaModule} from "primeng/galleria";
-import {FileUploadModule} from "primeng/fileupload";
-import {CarouselModule} from "primeng/carousel";
-import {ImageModule} from "primeng/image";
 
 
 @NgModule({
@@ -23,10 +19,6 @@ import {ImageModule} from "primeng/image";
   imports: [
     CommonModule,
     AppCommonModule,
-    GalleriaModule,
-    FileUploadModule,
-    CarouselModule,
-    ImageModule,
   ]
 })
 export class PresentationsModule {

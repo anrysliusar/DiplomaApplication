@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController()
 @RequestMapping("/api/slides")
 @RequiredArgsConstructor
@@ -20,9 +22,24 @@ public class SlideController {
     }
 
     @PostMapping
-    public void createSlide(@RequestBody SlideDTO slideDTO,
+    public SlideDTO createSlide(@RequestBody SlideDTO slideDTO,
                             @RequestParam Long presentationId) {
-        slideConfigurator.createSlide(slideDTO, presentationId);
+        return slideConfigurator.createSlide(slideDTO, presentationId);
+    }
+
+    @GetMapping("/{slideId}")
+    public SlideDTO getSlide(@PathVariable Long slideId) {
+        return slideConfigurator.getSlide(slideId);
+    }
+
+    @GetMapping()
+    public List<SlideDTO> getSlides(@RequestParam Long presentationId) {
+        return slideConfigurator.getSlides(presentationId);
+    }
+
+    @DeleteMapping("/{slideId}")
+    public void deleteSlide(@PathVariable Long slideId) {
+        slideConfigurator.deleteSlide(slideId);
     }
 
 

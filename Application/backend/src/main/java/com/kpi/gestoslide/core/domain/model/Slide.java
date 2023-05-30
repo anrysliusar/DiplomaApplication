@@ -34,6 +34,6 @@ public class Slide {
     @JoinColumn(name = "PRESENTATION_ID")
     private Presentation presentation;
 
-    @OneToMany(mappedBy = "slide")
+    @OneToMany(mappedBy = "slide", cascade = CascadeType.ALL)
     private List<MediaFile> mediaFiles = new ArrayList<>();
 }

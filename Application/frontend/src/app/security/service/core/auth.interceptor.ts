@@ -16,7 +16,6 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private authService: AuthStoreService) {
     authService.authToken$.subscribe(token => {
-      console.log("AuthInterceptor: " + token)
       this.authToken = token;
     });
   }
@@ -28,7 +27,6 @@ export class AuthInterceptor implements HttpInterceptor {
       params: request.params
     }
     request = request.clone(params);
-    console.log("AuthInterceptor: ", request)
     return next.handle(request);
   }
 

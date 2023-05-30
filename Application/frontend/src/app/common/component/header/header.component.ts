@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthStoreService} from "../../../security/service/store/auth-store.service";
 import {MenuItem} from "primeng/api";
 import {Router} from "@angular/router";
@@ -31,7 +31,6 @@ export class HeaderComponent implements OnInit {
   private configMenu() {
     const initialItems = [
       {label: 'Home', routerLink: '/home'},
-      {label: 'About', routerLink: '/about'}
     ];
     if (this.isAuthenticated) {
       this.menuItems = [

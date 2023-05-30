@@ -5,6 +5,7 @@ import {LoginComponent} from "./security/component/login/login.component";
 import {RegisterComponent} from "./security/component/register/register.component";
 import {HomePageComponent} from "./home/component/home-page/home-page.component";
 import {AuthGuard} from "./security/service/core/auth.guard";
+import {SlideshowComponent} from "./hand-gesture/component/slideshow/slideshow.component";
 
 const routes : Routes = [
   {
@@ -25,12 +26,13 @@ const routes : Routes = [
     component: HomePageComponent,
   },
   {
-    path: 'about',
-    component: HomePageComponent,
-  },
-  {
     path: 'projects',
     loadChildren: () => import('./projects/projects.module').then(m => m.ProjectsModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'slideshow/presentation/:id',
+    component: SlideshowComponent,
     canActivate: [AuthGuard]
   }
 ];

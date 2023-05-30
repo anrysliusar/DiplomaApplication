@@ -1,0 +1,16 @@
+.steps {
+  width: 90%;
+  margin-top: 5%;
+}
+
+.gesture {
+  width: 400px;
+  height: 300px
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 4% auto;
+}

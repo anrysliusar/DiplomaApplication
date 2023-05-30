@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {ProjectStoreService} from "../../../projects/service/store/project-store.service";
 import {ProjectTreeNode} from "../../../projects/component/project.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-presentation-page',
@@ -10,9 +11,14 @@ import {ProjectTreeNode} from "../../../projects/component/project.model";
 export class PresentationPageComponent {
   selectedNode$: ProjectTreeNode;
 
-  constructor(private projectStoreService: ProjectStoreService) {
+  constructor(private projectStoreService: ProjectStoreService,
+              private router: Router) {
     this.projectStoreService.selectedTreeNode$.subscribe(node => {
       this.selectedNode$ = node;
     });
+  }
+
+  navigate() {
+    this.router.navigate(['/slideshow/presentation/' + this.selectedNode$.id]).then();
   }
 }

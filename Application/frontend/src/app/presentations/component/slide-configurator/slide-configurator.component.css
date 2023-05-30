@@ -1,6 +1,11 @@
 .wrapper {
   height: 100%;
   display: flex;
+
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow: auto;
 }
 
 
@@ -9,4 +14,19 @@
   display: flex;
   justify-content: center;
   text-align: center;
+}
+
+.carousel-card {
+  height: 120px !important;
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,7 +1,10 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
-import { GestureService } from '../../service/gesture.service';
-import { HAND_CONNECTIONS } from '@mediapipe/hands';
-import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
+import {AfterViewInit, Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {GestureService} from '../../service/gesture.service';
+import {HAND_CONNECTIONS} from '@mediapipe/hands';
+import {drawConnectors, drawLandmarks} from '@mediapipe/drawing_utils';
+import {Gesture} from "../gesture.model";
+import {GestureStoreService} from "../../service/store/gesture-store.service";
+import {GestureRecognizerResult} from "@mediapipe/tasks-vision";
 
 @Component({
   selector: 'app-gesture',
@@ -11,12 +14,21 @@ import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 export class GestureComponent implements AfterViewInit, OnDestroy {
   @ViewChild('webcam') webcamElement: ElementRef;
   @ViewChild('canvas') canvasElement: ElementRef;
-  @ViewChild('output') outputElement: ElementRef;
+  @ViewChild('result') resultElement: ElementRef;
 
-  webcamStream: MediaStream;
-  webcamRunning = false;
+  elementPosition: string;
 
-  constructor(private gestureService: GestureService) {}
+  mediaStream: MediaStream;
+  isCameraStarted = false;
+
+  delay = 20;
+  counter = 0;
+  isGestureUpdated = false;
+
+
+  constructor(private gestureService: GestureService,
+              private gestureStoreService: GestureStoreService) {
+  }
 
   async ngAfterViewInit() {
     await this.gestureService.createGestureRecognizer();
@@ -24,25 +36,23 @@ export class GestureComponent implements AfterViewInit, OnDestroy {
       const constraints = {
         video: true,
       };
-      this.webcamStream = await navigator.mediaDevices.getUserMedia(constraints);
-      this.webcamElement.nativeElement.srcObject = this.webcamStream;
+      this.mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+      this.webcamElement.nativeElement.srcObject = this.mediaStream;
     }
   }
 
   async startGestureRecognition() {
-    this.webcamRunning = true;
-    await this.gestureService.setRunningMode();
-    this.predictWebcam().then();
+    this.isCameraStarted = true;
+    this.startRecognition().then();
   }
 
-  async predictWebcam(): Promise<void> {
-    if (this.webcamRunning) {
+  async startRecognition(): Promise<void> {
+    if (this.isCameraStarted) {
       const results = await this.gestureService.gestureRecognizer.recognizeForVideo(
         this.webcamElement.nativeElement,
         Date.now()
       );
 
-      // Handle result here
       const canvasCtx = this.canvasElement.nativeElement.getContext('2d');
       // Clear the canvas
       canvasCtx.clearRect(0, 0, this.canvasElement.nativeElement.width, this.canvasElement.nativeElement.height);
@@ -50,25 +60,47 @@ export class GestureComponent implements AfterViewInit, OnDestroy {
       if (results.landmarks) {
         for (const landmarks of results.landmarks) {
           // Draw connectors and landmarks on the canvas
-          drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, { color: '#ffea00', lineWidth: 5 });
-          drawLandmarks(canvasCtx, landmarks, { color: '#0033ff', lineWidth: 2 });
+          drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {color: '#ffea00', lineWidth: 5});
+          drawLandmarks(canvasCtx, landmarks, {color: '#0033ff', lineWidth: 2});
         }
       }
 
       if (results.gestures.length > 0) {
-        // Output the recognized gesture category and score
-        const categoryName = results.gestures[0][0].categoryName;
-        const categoryScore = (results.gestures[0][0].score * 100).toFixed(2);
-        this.outputElement.nativeElement.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %`;
+        this.handleResults(results);
+      }
+      if (results.worldLandmarks) {
+        this.gestureStoreService.setCurrentLandmarks(results.landmarks);
       }
 
-      requestAnimationFrame(() => this.predictWebcam());
+      this.handleGestureUpdate();
+
+      requestAnimationFrame(() => this.startRecognition());
+    }
+  }
+
+  private handleResults(results: GestureRecognizerResult): void {
+    const gesture = <Gesture>results.gestures[0][0].categoryName;
+    this.resultElement.nativeElement.innerText = `Gesture: ${gesture.toString()}`;
+    if (!this.isGestureUpdated) {
+      this.gestureStoreService.setRecognizedGesture(gesture);
+      this.isGestureUpdated = true;
+    }
+  }
+
+  private handleGestureUpdate() {
+    if (this.isGestureUpdated) {
+      this.counter++;
+      this.gestureStoreService.setRecognizedGesture(Gesture.None);
+      if (this.counter === this.delay) {
+        this.counter = 0;
+        this.isGestureUpdated = false;
+      }
     }
   }
 
   ngOnDestroy() {
-    if (this.webcamStream) {
-      this.webcamStream.getTracks().forEach((track) => track.stop());
+    if (this.mediaStream) {
+      this.mediaStream.getTracks().forEach((track) => track.stop());
     }
   }
 }

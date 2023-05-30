@@ -1,0 +1,23 @@
+<div class="wrapper">
+  <ng-container class="main" *ngIf="!slides || slides.length === 0; else slideshow">
+    <div class="no-data">
+      <p>No media files found.</p>
+    </div>
+  </ng-container>
+  <app-gesture class="over-main-right-bottom"></app-gesture>
+  <app-full-size-canvas *ngIf="activeCanvas" [mode]="canvasMode" class="over-main"></app-full-size-canvas>
+</div>
+
+<ng-template #slideshow >
+  <p-galleria [value]="slides"
+              [activeIndex]="activeIndex"
+              [showItemNavigators]="true"
+              [showThumbnails]="false"
+              [containerStyle]="{ 'width': '100%', 'height': '100%'}">
+    <ng-template pTemplate="item" let-slide>
+      <div class="fill">
+        <img src="{{Slide.imagePath + slide.mediaFile.name}}" style="width: 100%; display: block;"  alt=""/>
+      </div>
+    </ng-template>
+  </p-galleria>
+</ng-template>

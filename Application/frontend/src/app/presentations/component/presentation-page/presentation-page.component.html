@@ -1,10 +1,25 @@
 <p-tabView>
-  <p-tabPanel header="Basic Information">
+  <p-tabPanel>
+    <ng-template pTemplate="header">
+      <i class="pi pi-pencil m-1"></i>
+      <span>Basic Information</span>
+    </ng-template>
     <app-presentation-form></app-presentation-form>
   </p-tabPanel>
   <ng-container *ngIf="!selectedNode$.isNew">
-    <p-tabPanel header="Slide Configurator">
+    <p-tabPanel>
+      <ng-template pTemplate="header">
+        <i class="pi pi-images m-1"></i>
+        <span>Slide Configurator</span>
+      </ng-template>
       <app-slide-configurator [presentation]="selectedNode$"></app-slide-configurator>
     </p-tabPanel>
+    <p-tabPanel>
+      <ng-template pTemplate="header">
+        <i class="pi pi-play m-1"></i>
+        <span (click)="navigate()">Slide Show</span>
+      </ng-template>
+    </p-tabPanel>
+
   </ng-container>
 </p-tabView>

@@ -30,7 +30,7 @@ public class Presentation {
     @JoinColumn(name = "PROJECT_ID")
     private Project project;
 
-    @OneToMany(mappedBy = "presentation")
+    @OneToMany(mappedBy = "presentation",  cascade = CascadeType.ALL)
     private List<Slide> slides = new ArrayList<>();
 
     public Long getId() {

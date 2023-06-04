@@ -7,6 +7,7 @@ import {SlideApiService} from "../presentations/service/slide-api.service";
 import {AppCommonModule} from "../common/app-common.module";
 import {GestureStoreService} from "./service/store/gesture-store.service";
 import { FullSizeCanvasComponent } from './component/full-size-canvas/full-size-canvas.component';
+import {GestureService} from "./service/gesture.service";
 
 @NgModule({
   declarations: [
@@ -15,12 +16,13 @@ import { FullSizeCanvasComponent } from './component/full-size-canvas/full-size-
     FullSizeCanvasComponent
   ],
   exports: [
-    GestureComponent
+    GestureComponent,
+    SlideshowComponent
   ],
   imports: [
     CommonModule,
     AppCommonModule
   ],
-  providers: [ProjectStoreService, SlideApiService, GestureStoreService]
+  providers: [ProjectStoreService, SlideApiService, GestureStoreService, GestureService]
 })
 export class HandGestureModule { }

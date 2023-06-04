@@ -14,9 +14,4 @@ public class Gesture {
 
     @Column(name = "NAME")
     private String name;
-
-    @ElementCollection
-    @CollectionTable(name = "GESTURE_IMAGES",
-            joinColumns = @JoinColumn(name = "GESTURE_ID"))
-    private List<String> imageName;
 }

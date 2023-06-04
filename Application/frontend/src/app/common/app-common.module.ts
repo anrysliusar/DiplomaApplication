@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {HeaderComponent} from './component/header/header.component';
-import {FooterComponent} from './component/footer/footer.component';
 import {MenubarModule} from "primeng/menubar";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
@@ -22,8 +21,7 @@ import {ImageModule} from "primeng/image";
 
 @NgModule({
   declarations: [
-    HeaderComponent,
-    FooterComponent
+    HeaderComponent
   ],
   imports: [
     TabViewModule,
@@ -45,7 +43,7 @@ import {ImageModule} from "primeng/image";
     ImageModule,
   ],
   exports: [ReactiveFormsModule, HeaderComponent, ButtonModule, RippleModule, InputTextModule, MessagesModule,
-    FooterComponent, TreeModule, PanelMenuModule, InputTextareaModule, CalendarModule, TabViewModule, GalleriaModule,
+    TreeModule, PanelMenuModule, InputTextareaModule, CalendarModule, TabViewModule, GalleriaModule,
     FileUploadModule, CarouselModule, ImageModule,
   ]
 })

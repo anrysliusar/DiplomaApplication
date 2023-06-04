@@ -4,6 +4,7 @@ import {PresentationFormComponent} from './component/presentation-form/presentat
 import {AppCommonModule} from "../common/app-common.module";
 import { PresentationPageComponent } from './component/presentation-page/presentation-page.component';
 import { SlideConfiguratorComponent } from './component/slide-configurator/slide-configurator.component';
+import {HandGestureModule} from "../hand-gesture/hand-gesture.module";
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { SlideConfiguratorComponent } from './component/slide-configurator/slide
     PresentationPageComponent
   ],
   imports: [
+    HandGestureModule,
     CommonModule,
     AppCommonModule,
   ]

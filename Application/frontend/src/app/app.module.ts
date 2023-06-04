@@ -11,6 +11,7 @@ import {effects, reducers} from "./store";
 import {EffectsModule} from "@ngrx/effects";
 import {AppCommonModule} from "./common/app-common.module";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import {ProjectsModule} from "./projects/projects.module";
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
     BrowserAnimationsModule,
     AppCommonModule,
     HomeModule,
+    ProjectsModule,
     StoreDevtoolsModule,
     SecurityModule
   ],

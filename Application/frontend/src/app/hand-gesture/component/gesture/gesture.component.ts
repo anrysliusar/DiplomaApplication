@@ -16,12 +16,10 @@ export class GestureComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvas') canvasElement: ElementRef;
   @ViewChild('result') resultElement: ElementRef;
 
-  elementPosition: string;
-
   mediaStream: MediaStream;
   isCameraStarted = false;
 
-  delay = 20;
+  delay = 15;
   counter = 0;
   isGestureUpdated = false;
 
@@ -31,7 +29,7 @@ export class GestureComponent implements AfterViewInit, OnDestroy {
   }
 
   async ngAfterViewInit() {
-    await this.gestureService.createGestureRecognizer();
+    await this.gestureService.initRecognizer();
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       const constraints = {
         video: true,
@@ -43,44 +41,41 @@ export class GestureComponent implements AfterViewInit, OnDestroy {
 
   async startGestureRecognition() {
     this.isCameraStarted = true;
-    this.startRecognition().then();
+    this.recognize().then();
   }
 
-  async startRecognition(): Promise<void> {
+  async recognize(): Promise<void> {
     if (this.isCameraStarted) {
       const results = await this.gestureService.gestureRecognizer.recognizeForVideo(
         this.webcamElement.nativeElement,
         Date.now()
       );
 
-      const canvasCtx = this.canvasElement.nativeElement.getContext('2d');
+      const canvas = this.canvasElement.nativeElement.getContext('2d');
       // Clear the canvas
-      canvasCtx.clearRect(0, 0, this.canvasElement.nativeElement.width, this.canvasElement.nativeElement.height);
+      canvas.clearRect(0, 0, this.canvasElement.nativeElement.width, this.canvasElement.nativeElement.height);
 
       if (results.landmarks) {
         for (const landmarks of results.landmarks) {
           // Draw connectors and landmarks on the canvas
-          drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {color: '#ffea00', lineWidth: 5});
-          drawLandmarks(canvasCtx, landmarks, {color: '#0033ff', lineWidth: 2});
+          drawConnectors(canvas, landmarks, HAND_CONNECTIONS, {color: '#ffea00', lineWidth: 5});
+          drawLandmarks(canvas, landmarks, {color: '#0033ff', lineWidth: 2});
         }
       }
-
       if (results.gestures.length > 0) {
         this.handleResults(results);
       }
       if (results.worldLandmarks) {
         this.gestureStoreService.setCurrentLandmarks(results.landmarks);
       }
-
       this.handleGestureUpdate();
-
-      requestAnimationFrame(() => this.startRecognition());
+      requestAnimationFrame(() => this.recognize());
     }
   }
 
   private handleResults(results: GestureRecognizerResult): void {
     const gesture = <Gesture>results.gestures[0][0].categoryName;
-    this.resultElement.nativeElement.innerText = `Gesture: ${gesture.toString()}`;
+    this.resultElement.nativeElement.innerText = `Gesture name: ${gesture.toString()}`;
     if (!this.isGestureUpdated) {
       this.gestureStoreService.setRecognizedGesture(gesture);
       this.isGestureUpdated = true;

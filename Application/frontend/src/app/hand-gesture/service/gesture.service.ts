@@ -4,11 +4,11 @@ import {forHandLandmarkModelAssetPath, forVisionTasksBasePath} from "../componen
 
 @Injectable()
 export class GestureService {
-  public gestureRecognizer: GestureRecognizer;
+  public recognizer: GestureRecognizer;
 
   async initRecognizer() {
     const vision = await FilesetResolver.forVisionTasks(forVisionTasksBasePath);
-    this.gestureRecognizer = await GestureRecognizer.createFromOptions(vision, {
+    this.recognizer = await GestureRecognizer.createFromOptions(vision, {
       baseOptions: {modelAssetPath: forHandLandmarkModelAssetPath, delegate: 'GPU'},
       runningMode: "VIDEO",
     });

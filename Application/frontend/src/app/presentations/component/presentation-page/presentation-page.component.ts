@@ -18,7 +18,11 @@ export class PresentationPageComponent {
     });
   }
 
-  navigate() {
+  navigateToSlideShow() {
     this.router.navigate(['/slideshow/presentation/' + this.selectedNode$.id]).then();
+  }
+
+  navigateToSettings() {
+    this.router.navigate(['/settings']).then();
   }
 }

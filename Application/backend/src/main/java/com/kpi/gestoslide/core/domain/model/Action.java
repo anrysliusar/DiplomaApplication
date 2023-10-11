@@ -1,11 +1,19 @@
 package com.kpi.gestoslide.core.domain.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "ACTION")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Action {
     @Id
     @Column(name = "ID")
@@ -13,7 +21,8 @@ public class Action {
     private Long id;
 
     @Column(name = "NAME")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private ActionName name;
 
     @Column(name = "DESCRIPTION")
     private String description;

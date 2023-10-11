@@ -1,4 +1,4 @@
-package com.kpi.gestoslide.security.configuration;
+package com.kpi.gestoslide.security.service.authentication;
 
 import com.kpi.gestoslide.security.configuration.jwt.JwtUtilService;
 import com.kpi.gestoslide.core.domain.model.AppUser;
@@ -20,7 +20,7 @@ import java.util.Objects;
 
 @Service
 @AllArgsConstructor
-public class AuthenticationService {
+public class AuthenticationService implements Authenticator {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtilService jwtUtilService;

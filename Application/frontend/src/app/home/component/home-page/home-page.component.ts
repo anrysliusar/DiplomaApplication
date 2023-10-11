@@ -29,7 +29,7 @@ export class HomePageComponent implements OnInit {
         command: () => {this.isDemoChosen = false}
       },
       {
-        label: 'Start using Hand Gesture Recognition and tracking system for controlling your presentation',
+        label: 'Launch Hand Gesture Recognition and tracking system',
         icon: 'pi pi-fw pi-video',
         command: () => {this.isDemoChosen = true}
       }

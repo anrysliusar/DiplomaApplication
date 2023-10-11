@@ -1,6 +1,10 @@
 package com.kpi.gestoslide.core.domain.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +12,10 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "PROJECT")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Project {
     @Id
     @Column(name = "ID")
@@ -26,52 +34,4 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Presentation> presentations = new ArrayList<>();
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<AppUser> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<AppUser> users) {
-        this.users = users;
-    }
-
-    public List<Presentation> getPresentations() {
-        return presentations;
-    }
-
-    public void setPresentations(List<Presentation> presentations) {
-        this.presentations = presentations;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Project project = (Project) o;
-        return id.equals(project.id) && Objects.equals(name, project.name) && Objects.equals(description, project.description);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description);
-    }
 }

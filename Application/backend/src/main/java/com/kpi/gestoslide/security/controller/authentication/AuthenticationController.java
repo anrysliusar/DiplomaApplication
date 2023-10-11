@@ -3,7 +3,8 @@ package com.kpi.gestoslide.security.controller.authentication;
 import com.kpi.gestoslide.security.dto.authentication.AuthResponseModel;
 import com.kpi.gestoslide.security.dto.authentication.LoginModel;
 import com.kpi.gestoslide.security.dto.authentication.RegisterModel;
-import com.kpi.gestoslide.security.configuration.AuthenticationService;
+import com.kpi.gestoslide.security.service.authentication.AuthenticationService;
+import com.kpi.gestoslide.security.service.authentication.Authenticator;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 @AllArgsConstructor
 public class AuthenticationController {
-    private final AuthenticationService authenticationService;
+    private final Authenticator authenticationService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponseModel> register(@RequestBody RegisterModel registerModel) {

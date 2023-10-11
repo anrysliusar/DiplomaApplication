@@ -25,7 +25,6 @@ export class AuthApiService {
 
   }
 
-
   configHeaders() {
     return {
       'Content-Type': 'application/json',

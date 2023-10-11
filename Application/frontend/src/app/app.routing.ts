@@ -6,6 +6,7 @@ import {RegisterComponent} from "./security/component/register/register.componen
 import {HomePageComponent} from "./home/component/home-page/home-page.component";
 import {AuthGuard} from "./security/service/core/auth.guard";
 import {SlideshowComponent} from "./hand-gesture/component/slideshow/slideshow.component";
+import {SettingsComponent} from "./settings/components/settings/settings.component";
 
 const routes : Routes = [
   {
@@ -33,6 +34,11 @@ const routes : Routes = [
   {
     path: 'slideshow/presentation/:id',
     component: SlideshowComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
     canActivate: [AuthGuard]
   }
 ];

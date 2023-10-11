@@ -42,5 +42,4 @@ public class SlideController {
         slideConfigurator.deleteSlide(slideId);
     }
 
-
 }

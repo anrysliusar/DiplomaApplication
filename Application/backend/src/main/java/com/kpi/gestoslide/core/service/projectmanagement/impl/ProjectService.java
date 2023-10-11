@@ -10,7 +10,7 @@ import com.kpi.gestoslide.core.dto.project.ProjectNodeType;
 import com.kpi.gestoslide.core.dto.project.ProjectTreeNodeData;
 import com.kpi.gestoslide.core.dto.tree.TreeNode;
 import com.kpi.gestoslide.core.mappers.ProjectMapper;
-import com.kpi.gestoslide.security.configuration.AuthenticationService;
+import com.kpi.gestoslide.security.service.authentication.AuthenticationService;
 import com.kpi.gestoslide.core.service.projectmanagement.ProjectCRUDService;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;

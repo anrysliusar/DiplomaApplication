@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GestureActionRepository extends JpaRepository<GestureAction, Long> {
-
+    void deleteAllByUserId(Long userId);
 }

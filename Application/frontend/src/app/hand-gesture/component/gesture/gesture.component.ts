@@ -14,12 +14,12 @@ import {GestureRecognizerResult} from "@mediapipe/tasks-vision";
 export class GestureComponent implements AfterViewInit, OnDestroy {
   @ViewChild('webcam') webcamElement: ElementRef;
   @ViewChild('canvas') canvasElement: ElementRef;
-  @ViewChild('result') resultElement: ElementRef;
+  @ViewChild('gestureName') gestureName: ElementRef;
 
   mediaStream: MediaStream;
   isCameraStarted = false;
 
-  delay = 15;
+  delay = 20;
   counter = 0;
   isGestureUpdated = false;
 
@@ -36,6 +36,8 @@ export class GestureComponent implements AfterViewInit, OnDestroy {
       };
       this.mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
       this.webcamElement.nativeElement.srcObject = this.mediaStream;
+    } else {
+      alert('No camera available');
     }
   }
 
@@ -46,7 +48,7 @@ export class GestureComponent implements AfterViewInit, OnDestroy {
 
   async recognize(): Promise<void> {
     if (this.isCameraStarted) {
-      const results = await this.gestureService.gestureRecognizer.recognizeForVideo(
+      const results = await this.gestureService.recognizer.recognizeForVideo(
         this.webcamElement.nativeElement,
         Date.now()
       );
@@ -56,17 +58,14 @@ export class GestureComponent implements AfterViewInit, OnDestroy {
       canvas.clearRect(0, 0, this.canvasElement.nativeElement.width, this.canvasElement.nativeElement.height);
 
       if (results.landmarks) {
-        for (const landmarks of results.landmarks) {
-          // Draw connectors and landmarks on the canvas
-          drawConnectors(canvas, landmarks, HAND_CONNECTIONS, {color: '#ffea00', lineWidth: 5});
-          drawLandmarks(canvas, landmarks, {color: '#0033ff', lineWidth: 2});
+        for (const resultLandmarks of results.landmarks) {
+          drawConnectors(canvas, resultLandmarks, HAND_CONNECTIONS, {color: '#ffea00', lineWidth: 5});
+          drawLandmarks(canvas, resultLandmarks, {color: '#0033ff', lineWidth: 2});
         }
+        this.gestureStoreService.setCurrentLandmarks(results.landmarks);
       }
       if (results.gestures.length > 0) {
         this.handleResults(results);
-      }
-      if (results.worldLandmarks) {
-        this.gestureStoreService.setCurrentLandmarks(results.landmarks);
       }
       this.handleGestureUpdate();
       requestAnimationFrame(() => this.recognize());
@@ -75,7 +74,7 @@ export class GestureComponent implements AfterViewInit, OnDestroy {
 
   private handleResults(results: GestureRecognizerResult): void {
     const gesture = <Gesture>results.gestures[0][0].categoryName;
-    this.resultElement.nativeElement.innerText = `Gesture name: ${gesture.toString()}`;
+    this.gestureName.nativeElement.innerText = `Gesture name: ${gesture.toString()}`;
     if (!this.isGestureUpdated) {
       this.gestureStoreService.setRecognizedGesture(gesture);
       this.isGestureUpdated = true;

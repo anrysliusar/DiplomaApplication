@@ -9,6 +9,9 @@
 </div>
 
 <ng-template #slideshow >
+  <div class="over-main-num text-8xl">
+    {{activeIndex + 1}}/{{slides.length}}
+  </div>
   <p-galleria [value]="slides"
               [activeIndex]="activeIndex"
               [showItemNavigators]="true"

@@ -1,9 +1,17 @@
 package com.kpi.gestoslide.core.domain.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "GESTURE_ACTION")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class GestureAction {
     @Id
     @Column(name = "ID")

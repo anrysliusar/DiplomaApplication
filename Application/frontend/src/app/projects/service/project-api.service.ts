@@ -33,5 +33,4 @@ export class ProjectApiService {
     return this.http.put<Project>(`project/${id}`, project);
   }
 
-
 }

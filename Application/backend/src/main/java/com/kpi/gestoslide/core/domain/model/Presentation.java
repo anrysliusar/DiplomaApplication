@@ -40,5 +40,4 @@ public class Presentation {
 
     @OneToMany(mappedBy = "presentation",  cascade = CascadeType.ALL)
     private List<Slide> slides = new ArrayList<>();
-
 }

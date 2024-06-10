@@ -2,6 +2,7 @@ package com.kpi.gestoslide.core.controller.presentation;
 
 import com.kpi.gestoslide.core.dto.presentation.PresentationDTO;
 import com.kpi.gestoslide.core.service.presentationprocess.PresentationCDUDService;
+import com.kpi.gestoslide.core.service.presentationprocess.impl.PresentationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
